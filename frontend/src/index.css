@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
+}
+
+@keyframes floatYSlow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes pulsateGlow {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.28; transform: scale(1.08); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: rgb(51 65 85); }
+  50%       { border-color: rgb(37 99 235 / 0.6); }
+}
+
+.anim-fade-in-up        { animation: fadeInUp 0.7s cubic-bezier(.22,.68,0,1.2) both; }
+.anim-fade-in           { animation: fadeIn  0.6s ease both; }
+.anim-slide-left        { animation: slideInLeft 0.6s cubic-bezier(.22,.68,0,1.2) both; }
+
+.delay-100  { animation-delay: 0.10s; }
+.delay-200  { animation-delay: 0.20s; }
+.delay-300  { animation-delay: 0.30s; }
+.delay-400  { animation-delay: 0.40s; }
+.delay-500  { animation-delay: 0.50s; }
+.delay-600  { animation-delay: 0.60s; }
+.delay-700  { animation-delay: 0.70s; }
+.delay-800  { animation-delay: 0.80s; }
+.delay-900  { animation-delay: 0.90s; }
+
+.float-slow  { animation: floatY     5s ease-in-out infinite; }
+.float-fast  { animation: floatYSlow 3.5s ease-in-out infinite; }
+.glow-orb    { animation: pulsateGlow 4s ease-in-out infinite; }
+
+.shimmer-text {
+  background: linear-gradient(90deg, #93c5fd 0%, #ffffff 40%, #93c5fd 60%, #60a5fa 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+.card-hover {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgb(37 99 235 / 0.5);
+  box-shadow: 0 0 24px rgb(37 99 235 / 0.15);
+}
+
+.border-animated {
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in { animation: slideIn 0.3s cubic-bezier(.22,.68,0,1.2) both; }

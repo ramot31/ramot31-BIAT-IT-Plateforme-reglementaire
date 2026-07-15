@@ -1,0 +1,26 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/.env
+
+# Base vectorielle ChromaDB
+backend/chroma_db/
+
+# Documents PDF (trop volumineux pour git — stocker séparément)
+backend/documents/
+backend/uploads/*.pdf
+backend/uploads/*.PDF
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# Éditeurs et OS
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
