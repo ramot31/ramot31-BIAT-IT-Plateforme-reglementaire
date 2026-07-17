@@ -215,4 +215,4 @@ Un déclenchement manuel est disponible dans l'interface admin via le bouton **"
 
 ---
 
-## Développé dans le cadre d'un stage à BIAT — 2026
+## Développé dans le cadre d'un stage à BIAT IT — 2026
