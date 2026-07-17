@@ -6,8 +6,8 @@ import api from "../services/api";
 const SUGGESTIONS = [
   "Quelles sont les obligations de fonds propres selon Bâle III ?",
   "Expliquer les règles de LCR (Liquidity Coverage Ratio)",
-  "C'est quoi le rôle d'un auditeur interne ?",
-  "Comment fonctionne la titrisation ?",
+  "Quelles sont les exigences du ratio de solvabilité BCT ?",
+  "Quelles circulaires concernent la réserve obligatoire ?",
 ];
 
 function formatDate(iso) {
@@ -320,7 +320,7 @@ export default function Chatbot() {
             </button>
             <div>
               <h2 className="font-semibold text-white text-sm">BIAT Assistant IA</h2>
-              <p className="text-xs text-gray-500">Réglementations bancaires · Conversation générale</p>
+              <p className="text-xs text-gray-500">Réglementations bancaires tunisiennes</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -449,8 +449,8 @@ export default function Chatbot() {
                   <div className="w-16 h-16 rounded-2xl bg-blue-900/40 border border-blue-700 flex items-center justify-center text-3xl mb-4">🤖</div>
                   <h3 className="text-lg font-semibold text-white mb-2">BIAT Assistant IA</h3>
                   <p className="text-gray-400 text-sm max-w-md mb-8">
-                    Posez vos questions sur les réglementations bancaires ou discutez de n'importe quel sujet.
-                    Pour les réglementations, les réponses s'appuient sur les documents officiels indexés.
+                    Posez vos questions sur les circulaires BCT, les ratios prudentiels, la réglementation Bâle II/III
+                    et tous les textes officiels du secteur bancaire tunisien.
                   </p>
                   {status?.ollama_running && !status?.model_available && (
                     <div className="mb-6 px-4 py-3 bg-amber-900/30 border border-amber-700 rounded-xl text-amber-300 text-sm max-w-md">
@@ -492,7 +492,7 @@ export default function Chatbot() {
               <div className="flex gap-3 items-end">
                 <textarea
                   value={input}
-                  placeholder="Posez votre question ou discutez librement…"
+                  placeholder="Posez votre question sur les réglementations bancaires…"
                   rows={1}
                   className="flex-1 resize-none p-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm outline-none focus:border-blue-500 transition-colors leading-relaxed max-h-32"
                   style={{ height: "auto" }}

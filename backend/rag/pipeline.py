@@ -12,6 +12,22 @@ CHUNK_OVERLAP = 150
 
 RAG_RELEVANCE_THRESHOLD = 0.55
 
+_OUT_OF_SCOPE = (
+    "Je suis BIAT Assistant, spécialisé dans les réglementations bancaires tunisiennes.\n\n"
+    "Je peux vous aider sur :\n"
+    "- Les circulaires et notes de la Banque Centrale de Tunisie (BCT)\n"
+    "- Les ratios prudentiels : solvabilité, liquidité, LCR, NSFR\n"
+    "- La réglementation Bâle II / Bâle III appliquée en Tunisie\n"
+    "- Les textes législatifs et réglementaires du secteur bancaire\n\n"
+    "Posez-moi une question sur ces sujets."
+)
+
+_NO_DOC_FOUND = (
+    "Je ne trouve pas d'information sur ce sujet dans les documents disponibles.\n\n"
+    "Vérifiez que le document correspondant a bien été indexé, ou reformulez votre question "
+    "avec des termes plus précis (référence de la circulaire, concept réglementaire…)."
+)
+
 _RAG_TRIGGER_KEYWORDS: frozenset[str] = frozenset({
     "bct", "banque centrale de tunisie", "banque centrale tunisienne",
     "banques tunisiennes", "etablissement de credit", "intermediaire agree",
@@ -53,14 +69,14 @@ def _strip_accents(text: str) -> str:
 
 _CASUAL_RESPONSES = {
     "greeting": (
-        "Bonjour ! Je suis BIAT Assistant, votre assistant IA.\n\n"
-        "Je peux vous aider sur les réglementations bancaires tunisiennes (circulaires BCT, notes, textes officiels) "
-        "mais aussi répondre à des questions générales ou simplement discuter.\n\n"
+        "Bonjour ! Je suis BIAT Assistant, votre assistant spécialisé en réglementations bancaires tunisiennes.\n\n"
+        "Je peux vous aider sur les circulaires BCT, les ratios prudentiels, la réglementation Bâle II/III "
+        "et tous les textes officiels du secteur bancaire.\n\n"
         "Comment puis-je vous aider ?"
     ),
     "how_are_you": (
-        "Je vais très bien, merci de demander ! 😊\n\n"
-        "Et vous ? Puis-je vous aider avec quelque chose aujourd'hui ?"
+        "Je suis opérationnel et prêt à vous aider !\n\n"
+        "Posez-moi une question sur les réglementations bancaires tunisiennes."
     ),
     "thanks": "Avec plaisir ! N'hésitez pas si vous avez d'autres questions.",
     "bye": "Bonne journée ! Je reste disponible si vous avez besoin de moi.",
@@ -204,10 +220,8 @@ def ask_stream(question: str, n_results: int = 6):
         yield "done", None
         return
 
-    # Pas de mots-clés réglementaires → conversation générale directement (évite faux positifs RAG)
     if not _is_rag_question(question):
-        for token in llm.chat_stream(question):
-            yield "token", token
+        yield "token", _OUT_OF_SCOPE
         yield "sources", []
         yield "done", None
         return
@@ -232,8 +246,7 @@ def ask_stream(question: str, n_results: int = 6):
             chunks.append(c)
 
     if not _has_relevant_context(chunks):
-        for token in llm.chat_stream(question):
-            yield "token", token
+        yield "token", _NO_DOC_FOUND
         yield "sources", []
         yield "done", None
         return
@@ -263,7 +276,7 @@ def ask(question: str, n_results: int = 6) -> dict:
         return {"answer": casual, "sources": []}
 
     if not _is_rag_question(question):
-        return {"answer": llm.chat(question), "sources": []}
+        return {"answer": _OUT_OF_SCOPE, "sources": []}
 
     search_query    = query_cleaner.clean(question)
     q_vec           = embedder.embed(search_query)
@@ -284,7 +297,7 @@ def ask(question: str, n_results: int = 6) -> dict:
             chunks.append(c)
 
     if not _has_relevant_context(chunks):
-        return {"answer": llm.chat(question), "sources": []}
+        return {"answer": _NO_DOC_FOUND, "sources": []}
 
     answer = llm.generate(question, chunks)
 
